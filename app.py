@@ -48,6 +48,16 @@ class Szalloda:
         
         print(f'A megadott szobaszám ({szobaszam}) nem létezik!')
         return None
+    
+    def remove_foglalas(self, szobaszam: int, datum: datetime.date):
+        for foglalas in self.foglalasok:
+            if foglalas.szoba.szama == szobaszam and foglalas.datum == datum:
+                self.foglalasok.remove(foglalas)
+                print(f'Foglalás törölve: {foglalas.szoba.get_description()}, dátum: {foglalas.datum}')
+                return foglalas
+        
+        print(f'A megadott szobaszám ({szobaszam}) és dátum ({datum}) párosítás nem létezik!')
+        return None
 
     def get_nev(self):
         return self.nev
@@ -79,6 +89,12 @@ if __name__ == '__main__':
     szalloda.add_foglalas(102, datetime.strptime('2025.01.01.', '%Y.%m.%d.').date())
     szalloda.add_foglalas(101, datetime.strptime('2025.01.01.', '%Y.%m.%d.').date())
     szalloda.add_foglalas(201, datetime.strptime('2025.01.01.', '%Y.%m.%d.').date())
+
+    print('\nFoglalások:')
+    for foglalas in szalloda.get_foglalasok():
+        print( f'{foglalas.szoba.get_description()}, dátum: {foglalas.datum}')
+
+    szalloda.remove_foglalas(101, datetime.strptime('2025.01.01.', '%Y.%m.%d.').date())
 
     print('\nFoglalások:')
     for foglalas in szalloda.get_foglalasok():
