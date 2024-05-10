@@ -132,13 +132,13 @@ def user_interface(szalloda: Szalloda):
             print('Szobatípusok:')
             for szoba in szalloda.get_szobak():
                 print(f' - {szoba.get_description()}')
-            szobaszam = int(input_valid_szoba('Kérem adja meg a szobaszámot: '))
+            szobaszam = (input_valid_szoba('Kérem adja meg a szobaszámot: '))
             datum = input_valid_date('Kérem adja meg a dátumot (éééé-hh-nn): ')
             szalloda.add_foglalas(szobaszam, datum)
 
         elif valasz == '2':
             print('\n --- Foglalás törlése ---')
-            szobaszam = int(input_valid_szoba('Kérem adja meg a szobaszámot: '))
+            szobaszam = (input_valid_szoba('Kérem adja meg a szobaszámot: '))
             datum = input_valid_date('Kérem adja meg a dátumot (éééé-hh-nn): ')
             szalloda.remove_foglalas(szobaszam, datum)
 
