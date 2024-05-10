@@ -69,9 +69,13 @@ class Szalloda:
         return self.szobak
     
     def get_foglalasok(self):
+        if len(self.foglalasok) == 0:
+            print('Nincsenek foglalások!')
+            return
+        
         print(f'Foglalások: (összesen {len(self.foglalasok)} db)')
         for foglalas in self.foglalasok:
-            print(f'{foglalas.szoba.get_description()}, dátum: {foglalas.datum}')
+            print(f' - {foglalas.szoba.get_description()}, dátum: {foglalas.datum}')
 class Foglalas:
     def __init__(self, szoba: Szoba, datum: datetime.date):
         self.szoba = szoba
