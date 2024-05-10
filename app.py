@@ -69,7 +69,9 @@ class Szalloda:
         return self.szobak
     
     def get_foglalasok(self):
-        return self.foglalasok
+        print(f'Foglalások: (összesen {len(self.foglalasok)} db)')
+        for foglalas in self.foglalasok:
+            print(f'{foglalas.szoba.get_description()}, dátum: {foglalas.datum}')
 class Foglalas:
     def __init__(self, szoba: Szoba, datum: datetime.date):
         self.szoba = szoba
@@ -77,6 +79,8 @@ class Foglalas:
 
 if __name__ == '__main__':
 
+    """ Teszteléshez START """
+    
     egyagyas_szoba = EgyagyasSzoba(101)
     print(egyagyas_szoba.get_description())
     ketagyas_szoba = KetagyasSzoba(201)
@@ -90,14 +94,12 @@ if __name__ == '__main__':
     szalloda.add_foglalas(101, datetime.strptime('2025.01.01.', '%Y.%m.%d.').date())
     szalloda.add_foglalas(201, datetime.strptime('2025.01.01.', '%Y.%m.%d.').date())
 
-    print('\nFoglalások:')
-    for foglalas in szalloda.get_foglalasok():
-        print( f'{foglalas.szoba.get_description()}, dátum: {foglalas.datum}')
+    szalloda.get_foglalasok()
 
     szalloda.remove_foglalas(101, datetime.strptime('2025.01.01.', '%Y.%m.%d.').date())
 
-    print('\nFoglalások:')
-    for foglalas in szalloda.get_foglalasok():
-        print( f'{foglalas.szoba.get_description()}, dátum: {foglalas.datum}')
+    szalloda.get_foglalasok()
+
+    """ Teszteléshez END """
 
     wait = input('Nyomj entert a folytatáshoz...')
