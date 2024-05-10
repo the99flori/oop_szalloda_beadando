@@ -4,24 +4,8 @@ Szállodai szobafoglaló alkalmazás - készítette: Demecs Flórián - HBJU1F
 '''
 
 from abc import ABC, abstractmethod
+from datetime import datetime
 
-class Szalloda:
-    def __init__(self, nev: str, cim: str):
-        self.nev = nev
-        self.cim = cim
-        self.szobak = []
-
-    def add_szoba(self, szoba: Szoba):
-        self.szobak.append(szoba)
-
-    def get_nev(self):
-        return self.nev
-    
-    def get_cim(self):
-        return self.cim
-
-    def get_szobak(self):
-        return self.szobak
 class Szoba(ABC):
     def __init__(self, ar: int, szama: int):
         self.ar = ar
@@ -44,9 +28,40 @@ class KetagyasSzoba(Szoba):
 
     def get_description(self):
         return f'Kétágyas szoba, szoba száma: {self.szama}, ára: {self.ar} Ft/éj'
+class Szalloda:
+    def __init__(self, nev: str, cim: str):
+        self.nev = nev
+        self.cim = cim
+        self.szobak = []
+        self.foglalasok = []
 
+    def add_szoba(self, szoba: Szoba):
+        self.szobak.append(szoba)
+
+    def add_foglalas(self, szobaszam: int, datum: str):
+        for szoba in self.szobak:
+            if szoba.szama == szobaszam:
+                foglalas = Foglalas(szoba, datum)
+                self.foglalasok.append(foglalas)
+                print(f'Foglalás rögzítve: {szoba.get_description()}, dátum: {datum}')
+                return foglalas
+        
+        print(f'A megadott szobaszám ({szobaszam}) nem létezik!')
+        return None
+
+    def get_nev(self):
+        return self.nev
+    
+    def get_cim(self):
+        return self.cim
+
+    def get_szobak(self):
+        return self.szobak
+    
+    def get_foglalasok(self):
+        return self.foglalasok
 class Foglalas:
-    def __init__(self, szoba: Szoba, datum: str):
+    def __init__(self, szoba: Szoba, datum: datetime.date):
         self.szoba = szoba
         self.datum = datum
 
@@ -60,5 +75,13 @@ if __name__ == '__main__':
     szalloda.add_szoba(egyagyas_szoba)
     szalloda.add_szoba(ketagyas_szoba)
     print(f'Szálloda neve: {szalloda.get_nev()} címe: {szalloda.get_cim()} szobák száma: {len(szalloda.get_szobak())}')
+
+    szalloda.add_foglalas(102, datetime.strptime('2025.01.01.', '%Y.%m.%d.').date())
+    szalloda.add_foglalas(101, datetime.strptime('2025.01.01.', '%Y.%m.%d.').date())
+    szalloda.add_foglalas(201, datetime.strptime('2025.01.01.', '%Y.%m.%d.').date())
+
+    print('\nFoglalások:')
+    for foglalas in szalloda.get_foglalasok():
+        print( f'{foglalas.szoba.get_description()}, dátum: {foglalas.datum}')
 
     wait = input('Nyomj entert a folytatáshoz...')
